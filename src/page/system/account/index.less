@@ -1,0 +1,122 @@
+.account_content {
+  height: 100%;
+  background: #fff;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  overflow: auto;
+
+  .ant-tabs {
+    height: 100% !important;
+
+    .ant-tabs-left-bar {
+      width: 224px !important;
+    }
+
+    .ant-tabs-tab {
+      margin-bottom: 8px !important;
+      padding: 15px 24px !important;
+      text-align: left !important;
+    }
+
+    .ant-tabs-nav .ant-tabs-tab-active {
+      color: #1570C4;
+      background-color: #e6f7ff;
+    }
+  }
+
+  .account_right {
+    padding: 8px 40px
+  }
+
+
+  .basic_title {
+    margin-bottom: 12px;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .basic_box {
+    display: flex;
+
+    .basic_left {
+      min-width: 224px;
+      max-width: 448px;
+    }
+
+    .basic_right {
+      flex: 1 1;
+      padding-left: 100px;
+
+      .basic_avatar {
+        padding: 9px 0;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.85);
+      }
+
+      .basic_head {
+        width: 144px;
+        height: 144px;
+        margin-bottom: 12px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      .basic_upload {
+        width: 144px;
+        text-align: center;
+      }
+    }
+  }
+
+  /*安全设置*/
+
+  .setup_title {
+    margin-bottom: 12px;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .setup_content {
+    padding-left: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      padding-top: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #e8e8e8;
+
+      .setup-list-content {
+        flex: 1 0;
+
+        h4 {
+          margin-bottom: 4px;
+          color: rgba(0, 0, 0, .65);
+          font-size: 14px;
+          line-height: 22px;
+        }
+
+        p {
+          margin-bottom: 0;
+          color: rgba(0, 0, 0, .45);
+          font-size: 14px;
+          line-height: 22px;
+        }
+      }
+
+      .setup-text {
+        flex: 0 0 auto;
+      }
+    }
+  }
+}
