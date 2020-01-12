@@ -1,13 +1,22 @@
 import React, {Component} from 'react'
-import {Tree} from 'antd'
+import {Tree, Form, Radio} from 'antd'
 
 import {reqMenuList} from "../../../api/role";
 
 const {TreeNode} = Tree
+const {Item} = Form
+const {Group} = Radio
 export default class TreeNodes extends Component {
-    state = {
-        checkedKeys: []
+    constructor(props) {
+        super(props)
+        const {permission} = this.props.roles.data
+        const {menus} = this.props.roles
+        this.state = {
+            resourceId: menus,
+            permission: permission,
+        }
     }
+
     // 获取菜单数据
     initMenuList = () => {
         reqMenuList().then(res => {
@@ -56,9 +65,18 @@ export default class TreeNodes extends Component {
     }
 
     // 选中复选框
-    onCheck = (checkedKeys ) => {
-        console.log(checkedKeys);
+    onCheck = (resourceId) => {
+        this.setState({resourceId});
     }
+
+    // 单选按钮
+    onChange = e => {
+        this.setState({
+            permission: e.target.value,
+        });
+    };
+
+
     componentWillMount() {
         let menuNodes = localStorage.getItem('menuNodes')
         if (menuNodes) {
@@ -71,17 +89,45 @@ export default class TreeNodes extends Component {
     }
 
     render() {
+        const {name, id} = this.props.roles.data
+        const {resourceId, permission} = this.state
+        const formItemLayout = {
+            labelCol: {
+                xs: {span: 24},
+                sm: {span: 4},
+            },
+            wrapperCol: {
+                xs: {span: 24},
+                sm: {span: 20},
+            },
+        };
+        this.props.setForm({id, resourceId, permission})
+        console.log(resourceId);
+
         return (
-            <Tree
-                defaultExpandAll={true}
-                defaultCheckedKeys={['10', '12']}
-                onCheck={this.onCheck}
-                checkable
-            >
-                {
-                    this.treeNodes
-                }
-            </Tree>
+            <Form {...formItemLayout}>
+                <Item label="授权角色">
+                    <span>{name}</span>
+                </Item>
+                <Item label="数据权限">
+                    <Group onChange={this.onChange} value={permission}>
+                        <Radio value={1}>所在机构下所有操作数据</Radio>
+                        <Radio value={0}>所在账号下所有操作数据</Radio>
+                    </Group>
+                </Item>
+                <Item label="权限功能">
+                    <Tree
+                        checkedKeys={resourceId.length > 0 ? resourceId : ['10', '12']}
+                        defaultExpandAll={true}
+                        onCheck={this.onCheck}
+                        checkable
+                    >
+                        {
+                            this.treeNodes
+                        }
+                    </Tree>
+                </Item>
+            </Form>
         )
     }
 }

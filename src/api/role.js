@@ -74,3 +74,17 @@ export function reqUpdatePermission(data) {
         data: data
     })
 }
+
+/*
+* 查看权限
+* /sysRole/getMenuPermissionByRoleId
+* */
+export function reqMenuPermissionByRoleId(roleId) {
+    return ajax({
+        url: '/sysRole/getMenuPermissionByRoleId',
+        method: 'GET',
+        params: {
+            roleId
+        }
+    })
+}

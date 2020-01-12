@@ -22,19 +22,12 @@ class NormalContentForm extends Component {
                 sm: {span: 19},
             },
         };
-
-        let name = null
-        let describe = null
-        if (this.props.record) {
-            console.log(this.props.record);
-            name = this.props.record.name
-            describe = this.props.record.describe
-        }
+        const {name, describe} = this.props.record
         return (
             <Form {...formItemLayout}>
                 <Item label="角色名称">
                     {getFieldDecorator('name', {
-                        initialValue: name,
+                        initialValue: name || "",
                         rules: [{required: true, message: 'Please input your username!'}],
                     })(
                         <Input placeholder="请输入角色名称"/>,
@@ -42,7 +35,7 @@ class NormalContentForm extends Component {
                 </Item>
                 <Item label="角色描述">
                     {getFieldDecorator('describe', {
-                        initialValue: describe,
+                        initialValue: describe || "",
                         rules: [{required: true, message: 'Please input your username!'}],
                     })(
                         <TextArea placeholder="请输入内容"/>,

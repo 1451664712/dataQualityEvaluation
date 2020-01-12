@@ -5,7 +5,15 @@ import Trees from './tree'
 import './index.less'
 
 import {PAGE_SIZE} from "../../../utils/config";
-import {reqListSysRole, reqAddRole, reqUpdateRole, reqDeleteById, reqMenuList, reqUpdatePermission} from "../../../api/role";
+import {
+    reqListSysRole,
+    reqAddRole,
+    reqUpdateRole,
+    reqDeleteById,
+    reqMenuList,
+    reqUpdatePermission,
+    reqMenuPermissionByRoleId
+} from "../../../api/role";
 
 const {confirm} = Modal;
 
@@ -20,7 +28,8 @@ class Role extends Component {
             dataSource: [],
             limit: PAGE_SIZE,
             curPage: 1,
-            total: 0
+            total: 0,
+            record: {}
         }
     }
 
@@ -36,14 +45,14 @@ class Role extends Component {
     // 添加按钮
     addUserAndUpdateUser = () => {
         this.form.validateFields((err, values) => {
+            this.form.resetFields();
             if (!err) {
-                if (this.record && this.record.id) {
-                    let id = this.record.id
+                if (this.state.record && this.state.record.id) {
+                    let id = this.state.record.id
                     reqUpdateRole({...values, id}).then(res => {
                         if (res.code == '200') {
-                            this.form.resetFields();
                             message.success('修改成功')
-                            this.setState({state: false})
+                            this.setState({state: false}  )
                             this.initTableData()
                         }
                     })
@@ -63,16 +72,14 @@ class Role extends Component {
 
     // 取消按钮
     handleCancel = () => {
-        console.log(this.form);
-        this.form.resetFields();
         this.setState({
             state: false,
         })
+        this.form.resetFields();
     }
 
     // 删除
     handleDelete = (data) => {
-        let _this = this
         confirm({
             title: 'Do you Want to delete these items?',
             content: 'Some descriptions',
@@ -91,14 +98,36 @@ class Role extends Component {
 
     }
 
+    rolesUpdate = (data) => {
+        data.map(item => {
+            if (item.children.length > 0) {
+                this.menus.push(`${item.id}`)
+                this.rolesUpdate(item.children)
+            } else {
+                this.menus.push(`${item.id}`)
+            }
+        })
+    }
     // 分配权限
-    setRole = () => {
-        this.setState({roleState: true})
+    setRole = (data) => {
+        this.data = data
+        this.menus = []
+        reqMenuPermissionByRoleId(data.id).then(res => {
+            if (res.code == '200') {
+                this.rolesUpdate(res.result.menu)
+                this.setState({roleState: true})
+            }
+        })
     }
 
     // 添加权限
     addUserRole = () => {
-        this.setState({roleState: true})
+        reqUpdatePermission(this.sysResourceDto).then(res => {
+            if (res.code == '200') {
+                this.setState({roleState: false})
+                message.success('更新成功')
+            }
+        })
     }
     handleCancelRole = () => {
         this.setState({
@@ -109,8 +138,10 @@ class Role extends Component {
     showAddData = () => {
         this.setState({
             state: true,
-            showStatus: 0
+            showStatus: 0,
+            record: {}
         })
+
     }
     // 翻页
     changePage = (curPage) => {
@@ -158,21 +189,21 @@ class Role extends Component {
                 width: 300,
                 render: (text, record) => (
                     <span>
-                      <Button type="link" style={{padding: '0', marginRight: '10px'}}
-                              onClick={() => {
-                                  this.editHandleSubmit(record)
-                                  this.record = record
-                              }}>编辑</Button>
-                         <Button type="link" style={{padding: '0', marginRight: '10px'}}
-                                 onClick={() => {
-                                     this.setRole(record)
-                                     this.record = record
-                                 }}>分配权限</Button>
-                      <Button type="link" style={{padding: '0', marginRight: '10px'}}
-                              onClick={() => {
-                                  this.handleDelete(record)
-                                  this.record = record
-                              }}>删除</Button>
+                      <Button type="link" style={{padding: '0', marginRight: '10px'}} onClick={() => {
+                          this.editHandleSubmit(record)
+                          this.setState({record})
+                      }}
+                      >编辑</Button>
+                     <Button type="link" style={{padding: '0', marginRight: '10px'}} onClick={() => {
+                         this.setRole(record)
+                         this.setState({record})
+                     }}
+                     >分配权限</Button>
+                      <Button type="link" style={{padding: '0', marginRight: '10px'}} onClick={() => {
+                          this.handleDelete(record)
+                          this.setState({record})
+                      }}
+                      >删除</Button>
                     </span>
                 )
             }
@@ -205,7 +236,7 @@ class Role extends Component {
     }
 
     render() {
-        const {loading, showStatus, state, dataSource, total, roleState} = this.state
+        const {loading, showStatus, state, dataSource, total, roleState, record} = this.state
         const extra = (
             <Button type="primary" onClick={this.showAddData}>新建角色</Button>
         )
@@ -217,6 +248,8 @@ class Role extends Component {
         } else {
             title = '分配权限'
         }
+        const {data, menus} = this
+        // let menu = menus.map(String)
         return (
             <div className="role_box">
                 <Card title={title} extra={extra} bordered={false}>
@@ -242,16 +275,19 @@ class Role extends Component {
                     >
                         <AddForm setForm={(form) => {
                             this.form = form
-                        }} record={this.record}/>
+                        }} record={record}/>
                     </Modal>
                     <Modal
+                        destroyOnClose={true}
                         maskClosable={false}
                         title="分配权限"
                         visible={roleState}
                         onOk={this.addUserRole}
                         onCancel={this.handleCancelRole}
                     >
-                        <Trees/>
+                        <Trees roles={{data, menus}} setForm={(sysResourceDto) => {
+                            this.sysResourceDto = sysResourceDto
+                        }}/>
                     </Modal>
                 </Card>
             </div>
