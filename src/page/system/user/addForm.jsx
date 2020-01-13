@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Form, Input, Select} from 'antd'
-import {PAGE_SIZE} from "../../../utils/config";
+import {Form, Input, Select, Cascader} from 'antd'
 
 const {Item} = Form
+const {Option} = Select
 
 class ContentForm extends Component {
 
@@ -14,9 +14,39 @@ class ContentForm extends Component {
         }
     }
 
+    updateRole = (roleList) => {
+        return (
+            <Select
+                allowClear
+                placeholder="请选择"
+            >
+                {
+                    roleList.map(item => {
+                        return (
+                            <Option value={item.id} key={item.id}>{item.name}</Option>
+                        )
+                    })
+                }
+            </Select>
+        )
+    }
+
+    getOrgIds = (orgList) => {
+        orgList.map(item => {
+            if (item.children.length > 0) {
+                console.log(item.id);
+                this.getOrgIds(item.children)
+            }
+        })
+    }
+
     componentWillMount() {
-        console.log(this.props);
         this.props.setForm()
+    }
+
+    componentDidMount() {
+        console.log(this.props);
+        this.getOrgIds(this.props.orgList)
     }
 
     render() {
@@ -31,9 +61,36 @@ class ContentForm extends Component {
                 sm: {span: 19},
             },
         };
+        const fieldNames = {
+            label: 'name',
+            value: 'id',
+            children: 'children'
+        }
+
         const {accountName} = this.state
+        const {orgList, record} = this.props
         return (
             <Form {...formItemLayout}>
+                <Item label="所属机构">
+                    {getFieldDecorator('orgId', {
+                        initialValue: [1, 2, 4] || [],
+                        rules: [{required: true, message: 'Please input your username!'}],
+                    })(
+                        <Cascader
+                            fieldNames={fieldNames}
+                            options={orgList}
+                            changeOnSelect
+                        />
+                    )}
+                </Item>
+                <Item label="账号名称">
+                    {getFieldDecorator('accountName', {
+                        initialValue: accountName || "",
+                        rules: [{required: true, message: 'Please input your username!'}],
+                    })(
+                        <Input placeholder="请输入角色名称"/>,
+                    )}
+                </Item>
                 <Item label="角色名称">
                     {getFieldDecorator('name', {
                         initialValue: accountName || "",
