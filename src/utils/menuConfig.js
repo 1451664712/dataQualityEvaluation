@@ -59,7 +59,7 @@ export const menuList = [
             },
             {
                 title: "账号管理",
-                key: "/system/system"
+                key: "/system/user"
             }
             // {
             //     title: "通知提醒",

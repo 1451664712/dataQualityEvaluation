@@ -9,6 +9,7 @@ import {
     reqEvaluateResult
 } from '../../api'
 import Bar from './bar'
+
 class Home extends Component {
     state = {
         dataText: '',
@@ -24,10 +25,12 @@ class Home extends Component {
      */
     getSourceType = () => {
         reqSourceType().then(res => {
-            this.setState({
-                dataBase: res.result.datasource,
-                dataText: res.result.text,
-            })
+            if (res.code == '200') {
+                this.setState({
+                    dataBase: res.result.datasource,
+                    dataText: res.result.text,
+                })
+            }
         })
     }
 
@@ -36,9 +39,11 @@ class Home extends Component {
      */
     getMatchedRules = () => {
         reqMatchedRules().then(res => {
-            this.setState({
-                matchedRules: res.result.datasource,
-            })
+            if (res.code == '200') {
+                this.setState({
+                    matchedRules: res.result.datasource,
+                })
+            }
         })
     }
 
@@ -47,10 +52,11 @@ class Home extends Component {
      */
     getRuleRegular = () => {
         reqRuleRegular().then(res => {
-            console.log(res);
-            this.setState({
-                ruleRegular: res.result.datasource,
-            })
+            if (res.code == '200') {
+                this.setState({
+                    ruleRegular: res.result.datasource,
+                })
+            }
         })
     }
     /**
@@ -58,10 +64,12 @@ class Home extends Component {
      */
     getTaskCountByMatchedRules = () => {
         reqTaskCountByMatchedRules().then(res => {
-            this.setState({
-                execute: res.result.execute,
-                unexecute: res.result.unexecute,
-            })
+            if (res.code == '200') {
+                this.setState({
+                    execute: res.result.execute,
+                    unexecute: res.result.unexecute,
+                })
+            }
         })
     }
 
@@ -70,10 +78,11 @@ class Home extends Component {
      */
     getEvaluateResult = () => {
         reqEvaluateResult().then(res => {
-            console.log(res);
-            this.setState({
-                sourceData: res.result
-            })
+            if (res.code == '200') {
+                this.setState({
+                    sourceData: res.result
+                })
+            }
         })
     }
 

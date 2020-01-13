@@ -2,15 +2,18 @@ import React, {Component} from 'react'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import './index.less'
 import {Layout, Icon, Modal, message, Avatar} from 'antd';
-import storageUtils from '../../utils/store'
-import {getToken, removeToken} from "../../utils/cookie";
 import LeftNav from "../../components/leftNav";
 import Home from "../home/index";
 import DataSource from "../dataSource"
 import UserInfo from '../system/account'
 import Role from '../system/role'
+import User from "../system/user";
+
+import storageUtils from '../../utils/store'
+import {getToken, removeToken} from "../../utils/cookie";
 import {reqLogout} from "../../api";
 import {connect} from 'react-redux'
+
 
 const {Header, Sider, Content} = Layout;
 const {confirm} = Modal
@@ -81,6 +84,7 @@ class Index extends Component {
                             <Route path='/dataSource' component={DataSource}/>
                             <Route path='/system/userInfo' component={UserInfo}/>
                             <Route path='/system/role' component={Role}/>
+                            <Route path="/system/user" component={User}></Route>
                             <Redirect to="/home"/>
                         </Switch>
                     </Content>
