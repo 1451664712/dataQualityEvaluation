@@ -8,7 +8,8 @@ import {
     reqStopAccountById,
     reqStartAccountById,
     reqResetAccountPwdById,
-    reqAddAccount
+    reqAddAccount,
+    reqUpdateAccountById
 } from "../../../api/user";
 import {PAGE_SIZE} from "../../../utils/config";
 import AddForm from './addForm'
@@ -77,11 +78,14 @@ class User extends Component {
     //显示弹框
     showAddData = () => {
         this.record = null
+        this.disabled = false
         this.setState({status: true})
     }
 
     // 编辑账号
     editHandleSubmit = (data) => {
+        this.record = data
+        this.disabled = true
         this.setState({status: true})
     }
 
@@ -89,26 +93,38 @@ class User extends Component {
     addUserRole = () => {
         this.form.validateFields((err, values) => {
             if (!err) {
+                let organizationId
                 let orgId
                 const {accountName, email, name, roleId} = values
-
+                const {accountId} = this.record
                 let accountPasswd = sha1(values.accountName)
                 if (values.orgId.length > 0) {
+                    organizationId = values.orgId[values.orgId.length - 1]
                     orgId = values.orgId[values.orgId.length - 1]
                 }
                 //
-                if (this.record && this.record.id) {
-
+                if (this.record && this.record.accountId) {
+                    reqUpdateAccountById({accountId, roleId, orgId}).then(res => {
+                        if (res.code == '200') {
+                            message.success('操作成功')
+                            this.setState({status: false})
+                            this.initTableData()
+                        }
+                    })
                 } else {
                     reqAddAccount({
                         accountPasswd,
                         accountName,
                         email,
                         name,
-                        orgId,
+                        organizationId,
                         roleId
                     }).then(res => {
-                        console.log(res);
+                        if (res.code == '200') {
+                            message.success('添加成功')
+                            this.setState({status: false})
+                            this.initTableData()
+                        }
                     })
                 }
             }
@@ -223,7 +239,6 @@ class User extends Component {
                             onClick={
                                 () => {
                                     this.editHandleSubmit(record)
-                                    this.record = record
                                 }
                             }
                         >编辑</Button>
@@ -415,6 +430,7 @@ class User extends Component {
                                 this.form = form
                             }
                         }
+                        disabled={this.disabled}
                         roles={roleList}
                         orgList={orgList}
                         record={this.record || {}}

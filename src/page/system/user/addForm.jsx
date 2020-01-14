@@ -59,7 +59,7 @@ class ContentForm extends Component {
             value: 'id',
             children: 'children'
         }
-        const {orgList, roles} = this.props
+        const {orgList, roles, disabled} = this.props
         const {accountName, name, email, roleId, id} = this.props.record
         return (
             <Form {...formItemLayout}>
@@ -81,7 +81,7 @@ class ContentForm extends Component {
                         initialValue: accountName,
                         rules: [{required: true, message: '账号名称不能为空'}],
                     })(
-                        <Input placeholder="请输入账号名称"/>,
+                        <Input placeholder="请输入账号名称" disabled/>,
                     )}
                 </Item>
                 {
@@ -98,7 +98,7 @@ class ContentForm extends Component {
                         initialValue: name,
                         rules: [{required: true, message: '真实姓名不能为空'}],
                     })(
-                        <Input placeholder="请输入角色名称"/>,
+                        <Input placeholder="请输入角色名称" disabled/>,
                     )}
                 </Item>
                 <Item label="邮箱">
@@ -115,7 +115,7 @@ class ContentForm extends Component {
                             },
                         ],
                     })(
-                        <Input placeholder="请输入邮箱"/>,
+                        <Input placeholder="请输入邮箱" disabled/>,
                     )}
                 </Item>
                 <Item label="角色">
