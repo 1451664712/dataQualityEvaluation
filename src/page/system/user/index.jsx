@@ -335,6 +335,9 @@ class User extends Component {
             }
         });
     }
+    onChange = (val) => {
+        console.log(val);
+    }
 
     componentWillMount() {
         this.initColumns()
@@ -434,6 +437,7 @@ class User extends Component {
                         roles={roleList}
                         orgList={orgList}
                         record={this.record || {}}
+                        orgList={orgList}
                     />
                 </Modal>
             </Card>
