@@ -27,7 +27,6 @@ class UpdateEmail extends Component {
         } else {
             callback('请输入邮箱');
         }
-
     };
     /***
      * 获取邮箱验证码

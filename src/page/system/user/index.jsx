@@ -7,10 +7,12 @@ import {
     reqListAccount,
     reqStopAccountById,
     reqStartAccountById,
-    reqResetAccountPwdById
+    reqResetAccountPwdById,
+    reqAddAccount
 } from "../../../api/user";
 import {PAGE_SIZE} from "../../../utils/config";
 import AddForm from './addForm'
+import sha1 from 'js-sha1'
 
 const {Item} = Form
 const {Option} = Select
@@ -85,7 +87,32 @@ class User extends Component {
 
     // 添加账号
     addUserRole = () => {
+        this.form.validateFields((err, values) => {
+            if (!err) {
+                let orgId
+                const {accountName, email, name, roleId} = values
 
+                let accountPasswd = sha1(values.accountName)
+                if (values.orgId.length > 0) {
+                    orgId = values.orgId[values.orgId.length - 1]
+                }
+                //
+                if (this.record && this.record.id) {
+
+                } else {
+                    reqAddAccount({
+                        accountPasswd,
+                        accountName,
+                        email,
+                        name,
+                        orgId,
+                        roleId
+                    }).then(res => {
+                        console.log(res);
+                    })
+                }
+            }
+        });
     }
     // 取消弹框
     handleCancel = () => {
@@ -389,6 +416,7 @@ class User extends Component {
                             }
                         }
                         roles={roleList}
+                        orgList={orgList}
                         record={this.record || {}}
                     />
                 </Modal>

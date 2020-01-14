@@ -45,12 +45,12 @@ class Role extends Component {
     // 添加按钮
     addUserAndUpdateUser = () => {
         this.form.validateFields((err, values) => {
-            this.form.resetFields();
             if (!err) {
                 if (this.state.record && this.state.record.id) {
                     let id = this.state.record.id
                     reqUpdateRole({...values, id}).then(res => {
                         if (res.code == '200') {
+                            this.form.resetFields();
                             message.success('修改成功')
                             this.setState({state: false}  )
                             this.initTableData()

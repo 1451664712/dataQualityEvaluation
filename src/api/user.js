@@ -95,3 +95,22 @@ export const reqResetAccountPwdById = (data) => ajax({
 
     }
 })
+/**
+ * 修改账号（新）
+ * */
+export const reqUpdateAccountById = (data) => ajax({
+    url: '/v1/tbUserAccount/updateAccountById',
+    method: 'POST',
+    params: data
+})
+
+/**
+ * 新建账号
+ *
+ *  */
+
+export const reqAddAccount = (data) => ajax({
+    url: '/v1/tbUserAccount/addAccount',
+    method: 'POST',
+    data: data
+})
