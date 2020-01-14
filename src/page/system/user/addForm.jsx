@@ -88,7 +88,7 @@ class ContentForm extends Component {
                     id ? "" : (
                         <Item label="账号密码">
                             {getFieldDecorator('accountName', {})(
-                                <Input type="password" disabled placeholder="密码将自动生成"/>,
+                                <Input type="password" disabled={disabled} placeholder="密码将自动生成"/>,
                             )}
                         </Item>
                     )
@@ -98,7 +98,7 @@ class ContentForm extends Component {
                         initialValue: name,
                         rules: [{required: true, message: '真实姓名不能为空'}],
                     })(
-                        <Input placeholder="请输入角色名称" disabled/>,
+                        <Input placeholder="请输入角色名称" disabled={disabled}/>,
                     )}
                 </Item>
                 <Item label="邮箱">
@@ -115,7 +115,7 @@ class ContentForm extends Component {
                             },
                         ],
                     })(
-                        <Input placeholder="请输入邮箱" disabled/>,
+                        <Input placeholder="请输入邮箱" disabled={disabled}/>,
                     )}
                 </Item>
                 <Item label="角色">
