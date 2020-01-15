@@ -88,7 +88,7 @@ class DataSource extends Component {
                 render: () => (
                     <span>
                       <Button type="link" style={{padding: '0', marginRight: '10px'}}>编辑</Button>
-                      <Button type="link" style={{padding: '0', marginRight: '10px'}}>删除</Button>
+                      <Button type="link" style={{padding: '0', marginRight: '10px'}} onClick={this.handleDelete}>删除</Button>
                     </span>
                 )
             }
