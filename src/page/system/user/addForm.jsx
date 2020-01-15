@@ -81,7 +81,7 @@ class ContentForm extends Component {
                         initialValue: accountName,
                         rules: [{required: true, message: '账号名称不能为空'}],
                     })(
-                        <Input placeholder="请输入账号名称" disabled/>,
+                        <Input placeholder="请输入账号名称" disabled={disabled}/>,
                     )}
                 </Item>
                 {
