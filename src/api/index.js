@@ -64,6 +64,17 @@ export const reqEvaluateResult = () => ajax({
     method: 'POST',
 })
 
+/*
+* 获取任务执行情况
+* /home/top10EvaluateResult
+* */
+export function reqListTemplates(data) {
+    return ajax({
+        url: '/matchedRules/listMatchedRules',
+        method: 'GET',
+        params: data
+    })
+}
 
 
 

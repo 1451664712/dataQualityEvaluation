@@ -74,7 +74,8 @@ class Index extends Component {
                     <Content
                         style={{
                             margin: '24px 16px',
-                            background: 'none',
+                            padding: '20px',
+                            backgroundColor: '#fff',
                             minHeight: 280,
                         }}
                     >

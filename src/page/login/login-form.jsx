@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {Form, Icon, Input, Button} from 'antd';
+import {Form, Icon, Input, Button, Spin} from 'antd';
 import {connect} from 'react-redux'
 import './login-form.less'
 import storageUtils from '../../utils/store'
@@ -12,6 +12,9 @@ import {receiveUser} from '../../redux/actions'
 let sha1 = require('js-sha1');
 
 class NormalLoginForm extends React.Component {
+    state = {
+        loading: false
+    }
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {

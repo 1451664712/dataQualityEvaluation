@@ -69,8 +69,9 @@ class LeftNav extends Component {
                     }
                 </Link>
                 <Menu
-                    theme="dark"
                     mode="inline"
+                    theme="dark"
+                    selectedKeys={[path]}
                     defaultSelectedKeys={[path]}>
                     {
                         this.menuNodes
