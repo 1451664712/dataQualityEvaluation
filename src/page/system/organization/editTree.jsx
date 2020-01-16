@@ -15,7 +15,7 @@ class EditTree extends Component {
     // 组织机构树
     getTreeNodes = (data) => data.map(item => {
         const title = (
-            <div>
+            <div className="add">
                 <span className="org_value">{item.name}</span>
                 {
                     item.level == 0 ?
@@ -30,13 +30,13 @@ class EditTree extends Component {
         )
         if (item.children && item.children.length > 0) {
             return (
-                <TreeNode title={title} key={item.id}>
+                <TreeNode title={title} key={item.id} icon={<Icon type="carry-out" />}>
                     {this.getTreeNodes(item.children)}
                 </TreeNode>
             )
         } else {
             return (
-                <TreeNode title={title} key={item.id}/>
+                <TreeNode title={title} key={item.id} icon={<Icon type="carry-out" />}/>
             )
         }
     })
@@ -81,7 +81,7 @@ class EditTree extends Component {
         return (
             <div>
                 <Tree
-
+                    showLine={true}
                     onSelect={this.onSelect}
                     onCheck={this.onCheck}
                 >
