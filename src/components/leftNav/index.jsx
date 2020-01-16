@@ -16,7 +16,9 @@ class LeftNav extends Component {
                 return (
                     <Menu.Item key={item.key}>
                         <Link to={item.key}>
-                            <Icon type={item.icon}/>
+                            {
+                                item.icon ? (<Icon type={item.icon}/>) : null
+                            }
                             <span>{item.title}</span>
                         </Link>
                     </Menu.Item>

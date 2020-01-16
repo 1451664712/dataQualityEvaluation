@@ -3,11 +3,14 @@ import {Route, Switch, Redirect} from 'react-router-dom'
 import './index.less'
 import {Layout, Icon, Modal, message, Avatar} from 'antd';
 import LeftNav from "../../components/leftNav";
+
+// 路由组件
 import Home from "../home/index";
 import DataSource from "../dataSource"
 import UserInfo from '../system/account'
 import Role from '../system/role'
 import User from "../system/user";
+import Organization from "../system/organization";
 
 import storageUtils from '../../utils/store'
 import {getToken, removeToken} from "../../utils/cookie";
@@ -86,6 +89,7 @@ class Index extends Component {
                             <Route path='/system/userInfo' component={UserInfo}/>
                             <Route path='/system/role' component={Role}/>
                             <Route path="/system/user" component={User}></Route>
+                            <Route path="/system/org" component={Organization}></Route>
                             <Redirect to="/home"/>
                         </Switch>
                     </Content>

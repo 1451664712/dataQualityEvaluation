@@ -29,6 +29,17 @@ class ContentForm extends Component {
                 }
             }
         }
+        // data.forEach(item => {
+        //     if (item.id == id) {
+        //         return [item.id];
+        //     }
+        //     if (item.children.length > 0) {
+        //         let ro = this.getOrgList(item.children, id);
+        //         if (ro !== undefined) {
+        //             return ro.concat(item.id);
+        //         }
+        //     }
+        // })
     }
 
     componentWillMount() {

@@ -100,7 +100,7 @@ class Home extends Component {
     getTaskCountByMatchedRules = () => {
         const data = {
             permission: 0,
-            taskStatus: 0,
+            taskStatus: 1,
             total: 0,
             limit: 10,
             curPage: 1
@@ -143,7 +143,7 @@ class Home extends Component {
                     {
                         dataSituation.map(item => {
                             return (
-                                <Col xs={24} sm={12} md={12} lg={12} xl={6}>
+                                <Col xs={24} sm={12} md={12} lg={12} xl={6} key={item.title}>
                                     <div className="home_container">
                                         <div className="home_title" style={{backgroundColor: item.background}}>
                                             <img src={item.icon} alt=""/>
@@ -171,7 +171,7 @@ class Home extends Component {
                                     dataSource.length > 0 ?
                                         this.state.dataSource.map(item => {
                                             return (
-                                                <Timeline>
+                                                <Timeline key={item.id}>
                                                     <Timeline.Item>
                                                         <span>{item.createTime}</span>
                                                         <div className="task_content">
@@ -189,7 +189,6 @@ class Home extends Component {
                                             </div>
                                         )
                                 }
-
                             </div>
                         </Card>
                     </Col>
