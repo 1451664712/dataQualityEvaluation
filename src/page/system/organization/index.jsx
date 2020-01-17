@@ -27,7 +27,7 @@ export default class Organization extends Component {
                 <Row gutter={24}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={6} style={{marginBottom: '20px'}}>
                         <Card title="组织机构" bordered>
-                            <EditTree/>
+                            <EditTree />
                         </Card>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={18}>
