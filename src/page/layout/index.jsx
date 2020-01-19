@@ -58,7 +58,7 @@ class Index extends Component {
         const {name, imgUrl} = this.props.user
         return (
             <Layout className="layout_index">
-                <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+                <Sider trigger={null} collapsible collapsed={this.state.collapsed} width="256px">
                     <LeftNav collapsed={this.state.collapsed}/>
                 </Sider>
                 <Layout>
@@ -76,15 +76,13 @@ class Index extends Component {
                     </Header>
                     <Content
                         style={{
-                            margin: '24px 16px',
-                            padding: '20px',
-                            backgroundColor: '#fff',
-                            minHeight: 280,
+                            margin: "24px",
+                            backgroundColor: "#fff",
+                            flex: "none",
                         }}
                     >
                         <Switch>
                             <Route path='/home' component={Home}/>
-                            <Route path='/dataSource' component={DataSource}/>
                             <Route path='/dataSource' component={DataSource}/>
                             <Route path='/system/userInfo' component={UserInfo}/>
                             <Route path='/system/role' component={Role}/>

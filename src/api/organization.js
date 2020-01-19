@@ -16,3 +16,28 @@ export const reqListChildrenOrg = (orgId) => ajax({
     }
 })
 
+// 组织机构列表
+export const reqListOrganization = (data) => ajax({
+    url: '/tbUserOrganization/listOrganization',
+    method: 'GET',
+    params: data
+})
+
+// 根据机构id查询子机构
+export const reqListChildrenOrganizationById = (orgId) => ajax({
+    url: '/tbUserOrganization/listChildrenOrganizationById',
+    method: 'POST',
+    params: {
+        orgId
+    }
+})
+
+
+// 添加组织机构
+export const reqAddOrganization = (data) => ajax({
+    url: '/tbUserOrganization/addOrganization',
+    method: 'POST',
+    data: data
+})
+
+

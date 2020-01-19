@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
 import './index.less'
-import {Tree, Icon, Modal, Input, Form, Select, Radio, Cascader} from 'antd'
-import {reqListChildrenOrg} from "../../../api/organization"
+import {Tree, Icon, Modal, Input, Form, Select, Radio, Cascader, message} from 'antd'
+import {reqAddOrganization, reqTreeOrg} from "../../../api/organization"
 
 const {TreeNode} = Tree;
 const {Search} = Input;
 const {Item} = Form
-const {Option} = Select
 const {Group} = Radio
 
 class EditTree extends Component {
@@ -80,7 +79,8 @@ class EditTree extends Component {
                 rules: [{required: true, message: '请选择是否为叶子节点!'}],
                 disabled: false
             }
-        ]
+        ],
+        orgList: []
     }
 
     // 组织机构树
@@ -115,10 +115,8 @@ class EditTree extends Component {
     // 新建
     addForm = (data, e) => {
         e.stopPropagation();
-        let tree = localStorage.tree
-        if (tree) {
-            tree = JSON.parse(localStorage.tree)
-        }
+        this.tier = data.tier
+        let tree = this.state.orgList
         let arr = this.getOrgList(tree, data.id).reverse()
         this.state.addOrg[2].initialValue = arr
         this.setState({showStatus: 1})
@@ -142,7 +140,17 @@ class EditTree extends Component {
     addOrg = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values);
+                const {code, contact, email, level, name, telephone} = values
+                let pid = values.pid && values.pid.length > 0 ? values.pid[values.pid.length - 1] : ""
+                let id = 0
+                reqAddOrganization(
+                    {code, contact, email, level, name, telephone, pid, id}
+                ).then(res => {
+                    if (res.code == '200') {
+                        message.success("操作成功")
+                        this.initOrg()
+                    }
+                })
             }
         });
     }
@@ -154,8 +162,7 @@ class EditTree extends Component {
 
     // 点击树节点
     onSelect = async (selectedKeys) => {
-        const result = await reqListChildrenOrg(selectedKeys[0])
-        console.log(result);
+        this.props.listChildrenOrg(...selectedKeys)
     }
 
     onCheck = (selectedKeys, info) => {
@@ -187,26 +194,45 @@ class EditTree extends Component {
             )
         } else {
             return (
-                <Group>
-                    <Radio value={true}>是</Radio>
-                    <Radio value={false}>否</Radio>
-                </Group>
+                this.tier === 2 ?
+                    <span>是</span> :
+                    <Group>
+                        <Radio value={1}>是</Radio>
+                        <Radio value={0}>否</Radio>
+                    </Group>
             )
         }
     }
 
-    // 点击复选框
+    // 组织结构
+    initOrg = () => {
+        reqTreeOrg().then(res => {
+            if (res.code == '200') {
+                this.setState({
+                    orgList: res.result,
+                    showStatus: 0
+                })
+
+                // localStorage.setItem("tree", JSON.stringify(res.result))
+            }
+        })
+    }
+
+    componentDidMount() {
+        this.initOrg()
+    }
 
     componentWillMount() {
-        let tree = localStorage.tree
-        if (tree !== undefined) {
-            console.log(JSON.parse(tree));
-            this.treeNodes = this.getTreeNodes(JSON.parse(tree))
-        }
+        // let tree = localStorage.tree
+        // this.treeNodes = this.getTreeNodes(this.props.tree)
+        // if (tree !== undefined) {
+        //     console.log(JSON.parse(tree));
+        //
+        // }
     }
 
     render() {
-        const {showStatus, addOrg} = this.state
+        const {showStatus, addOrg, orgList} = this.state
         const {getFieldDecorator} = this.props.form;
         return (
             <div>
@@ -217,7 +243,7 @@ class EditTree extends Component {
                     onCheck={this.onCheck}
                 >
                     {
-                        this.treeNodes
+                        this.getTreeNodes(orgList)
                     }
                 </Tree>
                 <Modal
