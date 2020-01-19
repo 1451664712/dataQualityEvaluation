@@ -175,10 +175,7 @@ class EditTree extends Component {
             value: 'id',
             children: 'children'
         }
-        let tree = localStorage.tree
-        if (tree) {
-            tree = JSON.parse(localStorage.tree)
-        }
+        let tree = this.state.orgList
         if (item.type === "input") {
             return (
                 <Input placeholder={'请输入' + item.label}/>
@@ -220,15 +217,6 @@ class EditTree extends Component {
 
     componentDidMount() {
         this.initOrg()
-    }
-
-    componentWillMount() {
-        // let tree = localStorage.tree
-        // this.treeNodes = this.getTreeNodes(this.props.tree)
-        // if (tree !== undefined) {
-        //     console.log(JSON.parse(tree));
-        //
-        // }
     }
 
     render() {

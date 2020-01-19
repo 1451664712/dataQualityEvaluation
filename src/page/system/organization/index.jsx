@@ -29,9 +29,11 @@ export default class Organization extends Component {
     initDataSource = () => {
         const {curPage, limit} = this.state
         reqListOrganization({curPage, limit}).then(res => {
-            const dataSource = res.result.records
-            const total = res.result.total
-            this.setState({dataSource, total})
+            if (res.code == '200') {
+                const dataSource = res.result.records
+                const total = res.result.total
+                this.setState({dataSource, total})
+            }
         })
     }
     // 设置表头
