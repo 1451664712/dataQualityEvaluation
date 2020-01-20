@@ -114,6 +114,7 @@ class EditTree extends Component {
 
     // 新建
     addForm = (data, e) => {
+        console.log(data);
         e.stopPropagation();
         this.tier = data.tier
         let tree = this.state.orgList
@@ -209,14 +210,13 @@ class EditTree extends Component {
                     orgList: res.result,
                     showStatus: 0
                 })
-
-                // localStorage.setItem("tree", JSON.stringify(res.result))
             }
         })
     }
 
     componentDidMount() {
         this.initOrg()
+        this.props.initOrg(this.initOrg)
     }
 
     render() {

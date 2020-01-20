@@ -40,4 +40,37 @@ export const reqAddOrganization = (data) => ajax({
     data: data
 })
 
+// 删除组织机构 /tbUserOrganization/delOrganizationById
+export const reqDelOrganization = (id) => ajax({
+    url: '/tbUserOrganization/delOrganizationById',
+    method: 'POST',
+    params: {
+        id
+    }
+})
+
+/***
+ * 编辑组织机构
+ * /tbUserOrganization/updateOrganization
+ */
+export const reqUpdateOrganization = (data) => ajax({
+    url: '/tbUserOrganization/updateOrganization',
+    method: 'POST',
+    data: data
+})
+
+/**
+ *查看自己的上级
+ * /tbUserOrganization/listOrganizationForUp
+ */
+export const reqForOrganization = (orgId) => ajax({
+    url: '/tbUserOrganization/listOrganizationForUp',
+    method: 'GET',
+    params: {
+        type: 2,
+        orgId
+    }
+})
+
+
 
